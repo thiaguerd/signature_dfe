@@ -1,10 +1,13 @@
 # SignatureDfe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/signature_dfe`. To experiment with that code, run `bin/console` for an interactive prompt.
+ Assinatura digital de documentos fiscais eletrônicos (DF-e)
 
-TODO: Delete this and the text above, and describe your gem
 
-## Installation
+## Descrição
+
+Assine seu DF-e de forma rápida e fácil
+
+## Instalação
 
 Add this line to your application's Gemfile:
 
@@ -20,19 +23,85 @@ Or install it yourself as:
 
     $ gem install signature_dfe
 
-## Usage
+## Usando
 
-TODO: Write usage instructions here
+Você vai precisar do certificado PKCS12 ou da chave privada e o certificado público.
 
-## Development
+No caso de você ter o arquivo PKCS12
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+SignatureDfe::SSL.config.pkcs12   = "caminho/para/seu/cert.p12"
+SignatureDfe::SSL.config.password = "sua_senha"
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Já se vc usa a chave privada e o certificado separado
 
-## Contributing
+```ruby
+SignatureDfe::SSL.config.pkey      = "caminho/para/sua/chave_privada.pem"
+SignatureDfe::SSL.config.password  = "sua_senha"
+SignatureDfe::SSL.config.cert.     = "caminho/para/seu/certificado_publico.pem"
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/signature_dfe. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Feito esta configuração você testa, no cado se tudo certo, o resultado será true
+
+```ruby
+SignatureDfe::SSL.test
+```
+
+Feito esta configuração vc já está pronto para assinar seus documentos.
+
+## Assinatura digital NF-e NFC-e e NFA-e 
+
+Observe que os 3 documentos possuem a mesma estrutura
+Para assinar sua nf-e existem duas formas
+
+A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contendo a tag <b>infNFe</b>
+
+```ruby
+inf_nfe = %{
+<infNFe Id="NFe00000000000000000000000000000000000000000000" versao="3.10">
+	...
+</infNFe>}
+SignatureDfe::NFe.sign inf_nfe
+```
+
+Onde a resposta será
+
+```xml
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+	<SignedInfo>
+		<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+		<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+		<Reference URI="#NFe#{ch_nfe}">
+			<Transforms>
+				<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+				<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+			</Transforms>
+			<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+			<DigestValue>...</DigestValue>
+		</Reference>
+	</SignedInfo>
+	<SignatureValue>...</SignatureValue>
+	<KeyInfo>
+		<X509Data>
+			<X509Certificate>...</X509Certificate>
+		</X509Data>
+	</KeyInfo>
+</Signature>
+```
+
+Ou você pode obter os valores do <b>DigestValue</b>, <b>SignatureValue</b> e <b>X509Certificate</b> manualmente, e assim montar da forma como desejar seu xml
+
+```ruby
+inf_nfe = %{
+<infNFe Id="NFe00000000000000000000000000000000000000000000" versao="3.10">
+	...
+</infNFe>}
+ch_nfe = "0000000000000000000000000000000000000000000"
+digest_value = SignatureDfe::NFe.digest_value inf_nfe
+signature_value = SignatureDfe::NFe.signature_value ch_nfe, digest_value
+x509certificate = SignatureDfe::SSL.cert
+```
 
 ## License
 
