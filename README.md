@@ -1,3 +1,5 @@
+[![Travis CI](https://travis-ci.org/thiaguerd/signature_dfe.svg?branch=master)](https://travis-ci.org/thiaguerd/signature_dfe) [![Gem Version](https://badge.fury.io/rb/signature_dfe.svg)](https://rubygems.org/gems/signature_dfe)
+
 # SignatureDfe
 
  Assinatura digital de documentos fiscais eletrônicos (DF-e)
