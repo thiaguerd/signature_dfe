@@ -42,7 +42,7 @@ SignatureDfe::SSL.config.password  = "sua_senha"
 SignatureDfe::SSL.config.cert.     = "caminho/para/seu/certificado_publico.pem"
 ```
 
-Feito esta configuração você testa, no cado se tudo certo, o resultado será true
+Feito esta configuração você testa, no caso de tudo certo, o resultado será true
 
 ```ruby
 SignatureDfe::SSL.test
@@ -53,6 +53,7 @@ Feito esta configuração vc já está pronto para assinar seus documentos.
 ## Assinatura digital NF-e NFC-e e NFA-e 
 
 Observe que os 3 documentos possuem a mesma estrutura
+
 Para assinar sua nf-e existem duas formas
 
 A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contendo a tag <b>infNFe</b>
@@ -90,7 +91,7 @@ Onde a resposta será
 </Signature>
 ```
 
-Ou você pode obter os valores do <b>DigestValue</b>, <b>SignatureValue</b> e <b>X509Certificate</b> manualmente, e assim montar da forma como desejar seu xml
+E a forma qual onde você pode obter os valores do <b>DigestValue</b>, <b>SignatureValue</b> e <b>X509Certificate</b> manualmente, e assim montar da forma como desejar seu xml
 
 ```ruby
 inf_nfe = %{
