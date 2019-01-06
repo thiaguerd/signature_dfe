@@ -72,7 +72,7 @@ Onde a resposta será
 	<SignedInfo>
 		<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
 		<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-		<Reference URI="#NFe#{ch_nfe}">
+		<Reference URI="#NFe...">
 			<Transforms>
 				<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
 				<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
