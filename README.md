@@ -106,6 +106,60 @@ signature_value = SignatureDfe::NFe.signature_value ch_nfe, digest_value
 x509certificate = SignatureDfe::SSL.cert
 ```
 
+## Assinatura digital Evento de NF-e NFC-e e NFA-e 
+
+Observe que os 3 documentos possuem a mesma estrutura
+
+Para assinar sua nf-e existem duas formas
+
+A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contendo a tag <b>infNFe</b>
+
+```ruby
+inf_evento = %{
+<infEvento Id="ID1101115515151515151515151515156546546546545646544701">
+	...
+</infEvento>}
+SignatureDfe::NFe::Event.sign inf_evento
+```
+
+Onde a resposta será
+
+```xml
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+	<SignedInfo>
+		<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+		<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+		<Reference URI="#ID1...">
+			<Transforms>
+				<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+				<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+			</Transforms>
+			<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+			<DigestValue>...</DigestValue>
+		</Reference>
+	</SignedInfo>
+	<SignatureValue>...</SignatureValue>
+	<KeyInfo>
+		<X509Data>
+			<X509Certificate>...</X509Certificate>
+		</X509Data>
+	</KeyInfo>
+</Signature>
+```
+
+E a forma qual onde você pode obter os valores do <b>DigestValue</b>, <b>SignatureValue</b> e <b>X509Certificate</b> manualmente, e assim montar da forma como desejar seu xml
+
+```ruby
+inf_evento = %{
+<infEvento Id="ID1101115515151515151515151515156546546546545646544701">
+	...
+</infEvento>}
+event_id = "ID1101115515151515151515151515156546546546545646544701"
+digest_value = SignatureDfe::NFe::Event.digest_value inf_evento
+signature_value = SignatureDfe::NFe::Event.signature_value event_id, digest_value
+x509certificate = SignatureDfe::SSL.cert
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

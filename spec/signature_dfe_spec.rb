@@ -129,3 +129,81 @@ RSpec.describe "SignatureDfe NF-e" do
 		expect(SignatureDfe::NFe.sign inf_nfe).to eq(full_signature)
 	end
 end
+
+evento = %{<envEvento versao="1.00" xmlns="http://www.portalfiscal.inf.br/nfe"><idLote>654654</idLote><evento versao="1.00"><infEvento Id="ID1101115515151515151515151515156546546546545646544701"><cOrgao>12</cOrgao><tpAmb>2</tpAmb><CNPJ>04034484000140</CNPJ><chNFe>55151515151515151515151565465465465456465447</chNFe><dhEvento>2019-01-07T02:17:24-05:00</dhEvento><tpEvento>110111</tpEvento><nSeqEvento>1</nSeqEvento><verEvento>1.00</verEvento><detEvento versao="1.00"><descEvento>Cancelamento</descEvento><nProt>9</nProt><xJust>...</xJust></detEvento></infEvento></evento></envEvento>}
+event_id = "1101115515151515151515151515156546546546545646544701"
+expected_digest_value = "m8IF55vGMykDrCs64Sf5nqXKAmA="
+expected_signature_value = "j27NlmsM1X/FJmt6I9P7wb404btjCJrU2j3IHsGDSDbjPvgZaoU0D8FyzyYc\nUXuZeCG6a3lh/DuKfbhr/xF/b4CPZibEqUWUVy9ZR2WgEO8UbMYMFDQ+h85u\nCoG1XJ83z6XKHYMZ7UWKSO6TR0PILMUoAUfQPy5rfL3YAZZRvmT2wDTNlUtH\nsoVBXVNkYhM8Is0xIwr+5CEZRsz0/CrFW51FD5R7BS3JmEg1MbdWGgpWab4a\n8iVd9ZL61k+egghwWgl+nGeAe5H4+e3uCFFzCUQQEAhimG7iTFFR8PfSMrs6\nA8YuZi7g2XMvyYz5MOg3pmJ+dHxF8oQOHPU+A8w72w=="
+
+
+RSpec.describe "SignatureDfe Evento NF-e with pkcs12" do
+
+	signature_value = ""
+	x509certificate = ""
+
+	it "set up ssl" do
+		path = "./certs/certificate.p12"
+		SignatureDfe::SSL.config.pkey = nil
+		SignatureDfe::SSL.config.pkcs12 = path
+		SignatureDfe::SSL.config.password  = 'mybestpass'
+		SignatureDfe::SSL.config.cert = nil
+		expect(SignatureDfe::SSL.test).to eq(true)
+	end
+
+	it "calc digest" do
+		expect(SignatureDfe::NFe::Event.digest_value evento).to eq(expected_digest_value)
+	end
+
+	it "gen signature_value" do
+		signature_value = SignatureDfe::NFe::Event.signature_value event_id, expected_digest_value
+		expect(signature_value).to eq(expected_signature_value)
+	end
+
+	it "X509Certificate" do
+		x509certificate = File.read("./certs/certificate.pem").gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip
+		expect(SignatureDfe::SSL.cert).to eq(x509certificate)
+	end
+
+	it "full signature" do
+		full_signature = %{<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#ID#{event_id}"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>#{expected_digest_value}</DigestValue></Reference></SignedInfo><SignatureValue>#{expected_signature_value}</SignatureValue><KeyInfo><X509Data><X509Certificate>#{SignatureDfe::SSL.cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip}</X509Certificate></X509Data></KeyInfo></Signature>}
+		expect(SignatureDfe::NFe::Event.sign evento).to eq(full_signature)
+	end
+end
+
+RSpec.describe "SignatureDfe Evento NF-e with pk" do
+
+	signature_value = ""
+	x509certificate = ""
+	digest_value = ""
+
+
+	it "set up ssl" do
+		path = "./certs/key.pem"
+		cert_path = "./certs/certificate.pem"
+		SignatureDfe::SSL.config.pkcs12 = nil
+		SignatureDfe::SSL.config.pkey = path
+		SignatureDfe::SSL.config.password  = 'mybestpass'
+		SignatureDfe::SSL.config.cert = cert_path
+		expect(SignatureDfe::SSL.test).to eq(true)
+	end
+
+	it "calc digest" do		
+		expect(SignatureDfe::NFe::Event.digest_value evento).to eq(expected_digest_value)
+	end
+
+	it "gen signature_value" do
+		digest_value = "zW0EdR3pXLdRTGFWvPOoqCNYnp8="
+		signature_value = SignatureDfe::NFe::Event.signature_value event_id, expected_digest_value
+		expect(signature_value).to eq(expected_signature_value)
+	end
+
+	it "X509Certificate" do
+		x509certificate = File.read("./certs/certificate.pem").gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip
+		expect(SignatureDfe::SSL.cert).to eq(x509certificate)
+	end
+
+	it "full signature" do
+		full_signature = %{<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#ID#{event_id}"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>#{expected_digest_value}</DigestValue></Reference></SignedInfo><SignatureValue>#{expected_signature_value}</SignatureValue><KeyInfo><X509Data><X509Certificate>#{SignatureDfe::SSL.cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip}</X509Certificate></X509Data></KeyInfo></Signature>}
+		expect(SignatureDfe::NFe::Event.sign evento).to eq(full_signature)
+	end
+end

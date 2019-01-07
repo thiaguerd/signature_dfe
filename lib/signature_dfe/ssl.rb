@@ -38,11 +38,7 @@ module SignatureDfe
 
 		def self.cert
 			self.test unless defined?(@@pk)
-			if @@pk.is_a? OpenSSL::PKCS12
-				@@pk.certificate
-			else
-				@@cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip
-			end
+			@@cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, "").strip
 		end
 
 		def self.test
@@ -50,7 +46,9 @@ module SignatureDfe
 			if config.pkcs12
 				if File.exist? config.pkcs12
 					begin
-						@@pk = OpenSSL::PKCS12.new File.read(config.pkcs12), config.instance_variable_get(:@password)
+						aux = OpenSSL::PKCS12.new(File.read(config.pkcs12), config.instance_variable_get(:@password))
+						@@pk = aux.key
+						@@cert = aux.certificate
 					rescue OpenSSL::PKCS12::PKCS12Error => e
 						raise SignatureDfe::Error.new "Wrong password for '#{config.pkcs12}'"
 					end
