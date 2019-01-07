@@ -1,2 +1,5 @@
+v 0.1.2
+	- fix bug with pkcs12 signature
+	- add event for NF-e NFA-e NFC-e
 v 0.1.1
 	- add NF-e NFA-e NFC-e
