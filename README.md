@@ -25,7 +25,7 @@ Or install it yourself as:
 
     $ gem install signature_dfe
 
-## Usando
+## Configurando
 
 Você vai precisar do certificado PKCS12 ou da chave privada e o certificado público.
 
