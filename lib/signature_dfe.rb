@@ -1,20 +1,23 @@
-require "signature_dfe/version"
-require "openssl"
+require 'signature_dfe/version'
+require 'signature_dfe_xml'
+require 'openssl'
+
+GEM_ROOT = File.expand_path("../..", __FILE__)
 
 module SignatureDfe
-	class Error < StandardError; end
+  class Error < StandardError; end
 
-	module AbstractClass
-		def initialize
-			raise "this is a abstract class"
-		end
-	end
+  def initialize
+    raise 'this is a abstract class'
+  end
 
-	def self.canonize xml, canonize_method=Nokogiri::XML::XML_C14N_1_1
-		Nokogiri::XML(xml.gsub(/>\s+</,"><")).canonicalize(canonize_method)
-	end
+  module AbstractClass
+    def initialize
+      raise 'this is a abstract class'
+    end
+  end
 end
 
-require "signature_dfe/ssl"
-require "signature_dfe/nfe"
-require "signature_dfe/evento_nfe"
+require 'signature_dfe/ssl'
+require 'signature_dfe/nfe'
+require 'signature_dfe/evento_nfe'
