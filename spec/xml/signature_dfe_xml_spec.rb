@@ -185,7 +185,7 @@ RSpec.describe SignatureDfe::Xml do
         <d/>
       </infEvento>
     )
-    canonized = SignatureDfe::Xml.canonize_inf_event xml
+    canonized = SignatureDfe::Xml.canonize_with_ns xml, 'infEvento'
     expected = %(
       <infEvento xmlns="http://www.portalfiscal.inf.br/nfe" Id="NFe121">
         <d></d>

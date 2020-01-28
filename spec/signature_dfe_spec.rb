@@ -20,13 +20,18 @@ RSpec.describe 'SignatureDfe' do
   it 'pkey and pkcs12 is empty' do
     SignatureDfe::SSL.config.pkcs12 = nil
     SignatureDfe::SSL.config.pkey = nil
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, 'You must be set up pkcs12 or pkey')
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error, 'You must be set up pkcs12 or pkey')
   end
 
   it 'pkcs12 wrong pass' do
     SignatureDfe::SSL.config.pkcs12 = './certs/certificate.p12'
     SignatureDfe::SSL.config.password = 'mybestpasssss'
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Wrong password for './certs/certificate.p12'")
+    msg = "Wrong password for './certs/certificate.p12'"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error, msg)
   end
 
   it 'pkcs12 is right' do
@@ -40,14 +45,20 @@ RSpec.describe 'SignatureDfe with pkcs12' do
   it 'wrong path pkcs12' do
     path = 'wrong_path'
     SignatureDfe::SSL.config.pkcs12 = path
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Your pkcs12 '#{path}' is not a valid file")
+    msg = "Your pkcs12 '#{path}' is not a valid file"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error, msg)
   end
 
   it 'wrong pass pkcs12' do
     path = './certs/certificate.p12'
     SignatureDfe::SSL.config.pkcs12 = path
     SignatureDfe::SSL.config.password = 'mybestpasssss'
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Wrong password for '#{path}'")
+    msg = "Wrong password for '#{path}'"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error)
   end
 
   it 'right on set up wrong pkcs12' do
@@ -63,21 +74,30 @@ RSpec.describe 'SignatureDfe with pkey' do
     path = 'wrong_path'
     SignatureDfe::SSL.config.pkcs12 = nil
     SignatureDfe::SSL.config.pkey = path
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Your pkey '#{path}' is not a valid file")
+    msg = "Your pkey '#{path}' is not a valid file"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error)
   end
 
   it 'wrong pass pkey' do
     path = './certs/key.pem'
     SignatureDfe::SSL.config.pkey = path
     SignatureDfe::SSL.config.password = 'mybestpasssss'
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Wrong password for '#{path}'")
+    msg = "Wrong password for '#{path}'"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error)
   end
 
   it 'must be set certificate if you using pkey' do
     path = './certs/key.pem'
     SignatureDfe::SSL.config.pkey = path
     SignatureDfe::SSL.config.password = 'mybestpass'
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, 'You must be set up the cert if you chose use pkey')
+    msg = 'You must be set up the cert if you chose use pkey'
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error)
   end
   it 'wrong cert' do
     path = './certs/key.pem'
@@ -86,7 +106,10 @@ RSpec.describe 'SignatureDfe with pkey' do
     SignatureDfe::SSL.config.password = 'mybestpass'
     SignatureDfe::SSL.config.cert = cert_path
 
-    expect { SignatureDfe::SSL.test }.to raise_error(SignatureDfe::Error, "Your cert '#{cert_path}' is not a valid file")
+    msg = "Your cert '#{cert_path}' is not a valid file"
+    expect do
+      SignatureDfe::SSL.test
+    end.to raise_error(SignatureDfe::Error)
   end
   it 'right on set up with pkey and cert' do
     path = './certs/key.pem'
@@ -127,76 +150,103 @@ RSpec.describe 'SignatureDfe NF-e' do
   end
 end
 
-evento = %(<envEvento versao="1.00" xmlns="http://www.portalfiscal.inf.br/nfe"><idLote>654654</idLote><evento versao="1.00"><infEvento Id="ID1101115515151515151515151515156546546546545646544701"><cOrgao>12</cOrgao><tpAmb>2</tpAmb><CNPJ>04034484000140</CNPJ><chNFe>55151515151515151515151565465465465456465447</chNFe><dhEvento>2019-01-07T02:17:24-05:00</dhEvento><tpEvento>110111</tpEvento><nSeqEvento>1</nSeqEvento><verEvento>1.00</verEvento><detEvento versao="1.00"><descEvento>Cancelamento</descEvento><nProt>9</nProt><xJust>...</xJust></detEvento></infEvento></evento></envEvento>)
-event_id = 'ID1101115515151515151515151515156546546546545646544701'
-expected_digest_value = 'm8IF55vGMykDrCs64Sf5nqXKAmA='
-expected_signature_value = "j27NlmsM1X/FJmt6I9P7wb404btjCJrU2j3IHsGDSDbjPvgZaoU0D8FyzyYc\nUXuZeCG6a3lh/DuKfbhr/xF/b4CPZibEqUWUVy9ZR2WgEO8UbMYMFDQ+h85u\nCoG1XJ83z6XKHYMZ7UWKSO6TR0PILMUoAUfQPy5rfL3YAZZRvmT2wDTNlUtH\nsoVBXVNkYhM8Is0xIwr+5CEZRsz0/CrFW51FD5R7BS3JmEg1MbdWGgpWab4a\n8iVd9ZL61k+egghwWgl+nGeAe5H4+e3uCFFzCUQQEAhimG7iTFFR8PfSMrs6\nA8YuZi7g2XMvyYz5MOg3pmJ+dHxF8oQOHPU+A8w72w=="
-
 RSpec.describe 'SignatureDfe Evento NF-e with pkcs12' do
-  signature_value = ''
-  x509certificate = ''
+  before(:all) do
+    @pass = rand(36**40).to_s(36)
+    @p12_path = "#{GEM_ROOT}/spec/test_files/certs/certificate.p12"
+    @key_path = "#{GEM_ROOT}/spec/test_files/certs/key.pem"
+    @cert_path = "#{GEM_ROOT}/spec/test_files/certs/certificate.pem"
+    BuildCerts.build(
+      pass: @pass,
+      key_path: @key_path,
+      cert_path: @cert_path,
+      p12_path: @p12_path
+    )
+    SignatureDfe::SSL.config.pkcs12 = @p12_path
+    SignatureDfe::SSL.config.pkey = nil
+    SignatureDfe::SSL.config.password = @pass
+    SignatureDfe::SSL.config.cert = nil
+
+    @xml = File.read GEM_ROOT + '/spec/test_files/xml/event/event.xml'
+    
+    dhEvento = SignatureDfe::Xml.node_content 'dhEvento', @xml
+    @xml.gsub! dhEvento, Time.now.strftime('%Y-%m-%dT%H:%M:%S%:z')
+
+    inf_evento = SignatureDfe::Xml.node 'infEvento', @xml
+    @sig = SignatureDfe::NFe::Event.sign @xml
+    @actual_sig = SignatureDfe::Xml.node_content 'Signature', @xml
+
+    @xml.gsub! @actual_sig, @sig
+
+    @sig2 = SignatureDfe::NFe::Event.sign @xml
+  end
 
   it 'set up ssl' do
-    path = './certs/certificate.p12'
-    SignatureDfe::SSL.config.pkey = nil
-    SignatureDfe::SSL.config.pkcs12 = path
-    SignatureDfe::SSL.config.password = 'mybestpass'
-    SignatureDfe::SSL.config.cert = nil
     expect(SignatureDfe::SSL.test).to eq(true)
   end
 
-  it 'calc digest' do
-    expect(SignatureDfe::NFe::Event.digest_value(evento)).to eq(expected_digest_value)
+  it 'check digest' do
+    expect(SignatureDfe::Check.digest_check(@xml)).to be true
   end
 
-  it 'gen signature_value' do
-    signature_value = SignatureDfe::NFe::Event.signature_value event_id, expected_digest_value
-    expect(signature_value).to eq(expected_signature_value)
+  it 'check sign' do
+    expect(SignatureDfe::Check.only_signature_check(@xml)).to be true
   end
 
   it 'X509Certificate' do
-    x509certificate = File.read('./certs/certificate.pem').gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip
-    expect(SignatureDfe::SSL.cert).to eq(x509certificate)
+    x509certificate = File.read(@cert_path)
+    x509certificate.gsub!(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '')
+    expect(SignatureDfe::SSL.cert).to eq(x509certificate.strip)
   end
 
-  it 'full signature' do
-    full_signature = %(<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="##{event_id}"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>#{expected_digest_value}</DigestValue></Reference></SignedInfo><SignatureValue>#{expected_signature_value}</SignatureValue><KeyInfo><X509Data><X509Certificate>#{SignatureDfe::SSL.cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip}</X509Certificate></X509Data></KeyInfo></Signature>)
-    expect(SignatureDfe::NFe::Event.sign(evento)).to eq(full_signature)
-  end
 end
 
 RSpec.describe 'SignatureDfe Evento NF-e with pk' do
-  signature_value = ''
-  x509certificate = ''
-  digest_value = ''
+  before(:all) do
+    @pass = rand(36**40).to_s(36)
+    @p12_path = "#{GEM_ROOT}/spec/test_files/certs/certificate.p12"
+    @key_path = "#{GEM_ROOT}/spec/test_files/certs/key.pem"
+    @cert_path = "#{GEM_ROOT}/spec/test_files/certs/certificate.pem"
+    BuildCerts.build(
+      pass: @pass,
+      key_path: @key_path,
+      cert_path: @cert_path,
+      p12_path: @p12_path
+    )
+    SignatureDfe::SSL.config.pkcs12 = nil
+    SignatureDfe::SSL.config.pkey = @key_path
+    SignatureDfe::SSL.config.password = @pass
+    SignatureDfe::SSL.config.cert = @cert_path
+    @xml = File.read GEM_ROOT + '/spec/test_files/xml/event/event.xml'
+    
+    dhEvento = SignatureDfe::Xml.node_content 'dhEvento', @xml
+    @xml.gsub! dhEvento, Time.now.strftime('%Y-%m-%dT%H:%M:%S%:z')
+
+    inf_evento = SignatureDfe::Xml.node 'infEvento', @xml
+    @sig = SignatureDfe::NFe::Event.sign @xml
+    @actual_sig = SignatureDfe::Xml.node_content 'Signature', @xml
+
+    @xml.gsub! @actual_sig, @sig
+
+    @sig2 = SignatureDfe::NFe::Event.sign @xml
+  end
 
   it 'set up ssl' do
-    path = './certs/key.pem'
-    cert_path = './certs/certificate.pem'
-    SignatureDfe::SSL.config.pkcs12 = nil
-    SignatureDfe::SSL.config.pkey = path
-    SignatureDfe::SSL.config.password = 'mybestpass'
-    SignatureDfe::SSL.config.cert = cert_path
     expect(SignatureDfe::SSL.test).to eq(true)
   end
 
-  it 'calc digest' do
-    expect(SignatureDfe::NFe::Event.digest_value(evento)).to eq(expected_digest_value)
+  it 'check digest' do
+    expect(SignatureDfe::Check.digest_check(@xml)).to be true
   end
 
-  it 'gen signature_value' do
-    digest_value = 'zW0EdR3pXLdRTGFWvPOoqCNYnp8='
-    signature_value = SignatureDfe::NFe::Event.signature_value event_id, expected_digest_value
-    expect(signature_value).to eq(expected_signature_value)
+  it 'check sign' do
+    expect(SignatureDfe::Check.only_signature_check(@xml)).to be true
   end
 
   it 'X509Certificate' do
-    x509certificate = File.read('./certs/certificate.pem').gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip
-    expect(SignatureDfe::SSL.cert).to eq(x509certificate)
+    x509certificate = File.read(@cert_path)
+    x509certificate.gsub!(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '')
+    expect(SignatureDfe::SSL.cert).to eq(x509certificate.strip)
   end
 
-  it 'full signature' do
-    full_signature = %(<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="##{event_id}"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>#{expected_digest_value}</DigestValue></Reference></SignedInfo><SignatureValue>#{expected_signature_value}</SignatureValue><KeyInfo><X509Data><X509Certificate>#{SignatureDfe::SSL.cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip}</X509Certificate></X509Data></KeyInfo></Signature>)
-    expect(SignatureDfe::NFe::Event.sign(evento)).to eq(full_signature)
-  end
 end

@@ -19,13 +19,14 @@ module SignatureDfe
     def self.digest_check(xml)
       uri = Xml.namespace_value('URI', Xml.tag('Reference', xml)).gsub('#', '')
       xmlns = Xml.namespace_value('xmlns', xml)
-      node_assigned = Xml.get_node_by_namespace_value(uri, xml).gsub(/>\s+\</, '><')
+      node_assigned = Xml.get_node_by_namespace_value(uri, xml)
+      node_assigned.gsub!(/>\s+\</, '><')
       node_name = Xml.node_name(node_assigned)
       unless Xml.tag(node_name, xml).include?(xmlns)
         node_assigned.gsub!(node_name, %(#{node_name} xmlns="#{xmlns}"))
       end
-      digest_value = OpenSSL::Digest::SHA1.digest(Xml.canonize(node_assigned))
-      Base64.encode64(digest_value).strip == Xml.node_content('DigestValue', xml)
+      dv = OpenSSL::Digest::SHA1.digest(Xml.canonize(node_assigned))
+      Base64.encode64(dv).strip == Xml.node_content('DigestValue', xml)
     end
   end
 end
