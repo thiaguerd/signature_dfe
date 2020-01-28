@@ -7,6 +7,10 @@ module SignatureDfe
     attr_writer :password
 
     def initialize
+      clear
+    end
+
+    def clear
       @pkcs12 = nil
       @pkey = nil
       @cert = nil

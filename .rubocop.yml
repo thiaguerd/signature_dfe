@@ -8,6 +8,10 @@ Metrics/BlockLength:
   Exclude:
     - signature_dfe.gemspec
     - spec/signature_dfe_spec.rb
+    - spec/event/signature_dfe_event_pem_spec.rb
+    - spec/event/signature_dfe_event_pkcs_spec.rb
+    - spec/nfe/signature_dfe_nfe_pem_spec.rb
+    - spec/nfe/signature_dfe_nfe_pkcs_spec.rb
 
 Style/Documentation:
   Enabled: false
