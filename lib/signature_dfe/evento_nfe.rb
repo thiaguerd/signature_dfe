@@ -12,20 +12,10 @@ module SignatureDfe
 			end
 
 			def self.signature_value event_id, digest_value
-				signed_info = %{
-					<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
-						<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-						<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-						<Reference URI="##{event_id}">
-							<Transforms>
-								<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-								<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-							</Transforms>
-							<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-							<DigestValue>#{digest_value}</DigestValue>
-						</Reference>
-					</SignedInfo>
-				}
+				path = "#{GEM_ROOT}/lib/signature_dfe/templates/signed_info.xml"
+				signed_info = File.read path
+				signed_info.gsub!(':event_id', event_id)
+				signed_info.gsub!(':digest_value', digest_value)
 				signed_info_canonized = SignatureDfe::Xml.canonize signed_info
 				Base64.encode64(SignatureDfe::SSL.sign signed_info_canonized).strip
 			end
