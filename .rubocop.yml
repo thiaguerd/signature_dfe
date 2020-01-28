@@ -1,0 +1,18 @@
+AllCops:
+  Exclude:
+
+Layout/LineLength:
+  Exclude:
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/signature_dfe_spec.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
