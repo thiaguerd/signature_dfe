@@ -2,7 +2,7 @@ module SignatureDfe
   class Check
     def self.only_signature_check(xml)
       signed_info_canonized = Xml.signed_info_canonized xml
-      certificate = Xml.public_cert xml 
+      certificate = Xml.public_cert xml
       certificate.public_key.verify(
         OpenSSL::Digest.new(Xml.digest_method_algorithm(signed_info_canonized)),
         Base64.decode64(Xml.node_content('SignatureValue', xml)),
@@ -17,9 +17,9 @@ module SignatureDfe
     end
 
     def self.digest_check(xml)
-      uri = Xml.namespace_value('URI',  Xml.tag('Reference', xml)).gsub('#', '')
+      uri = Xml.namespace_value('URI', Xml.tag('Reference', xml)).gsub('#', '')
       xmlns = Xml.namespace_value('xmlns', xml)
-      node_assigned = Xml.get_node_by_namespace_value(uri, xml).gsub(/>\s+\</,'><')
+      node_assigned = Xml.get_node_by_namespace_value(uri, xml).gsub(/>\s+\</, '><')
       node_name = Xml.node_name(node_assigned)
       unless Xml.tag(node_name, xml).include?(xmlns)
         node_assigned.gsub!(node_name, %(#{node_name} xmlns="#{xmlns}"))

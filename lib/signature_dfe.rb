@@ -3,7 +3,7 @@ require 'signature_dfe_xml'
 require 'signature_dfe_check'
 require 'openssl'
 
-GEM_ROOT = File.expand_path("../..", __FILE__)
+GEM_ROOT = File.expand_path('..', __dir__)
 
 module SignatureDfe
   class Error < StandardError; end

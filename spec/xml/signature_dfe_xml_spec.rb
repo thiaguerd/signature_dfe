@@ -1,11 +1,10 @@
 require 'build_certs'
 
 RSpec.describe SignatureDfe::Xml do
-
   it 'test canonize' do
     xml = '<a/>'
     xml_canonized = SignatureDfe::Xml.canonize xml
-    expect(xml_canonized).to eq '<a></a>' 
+    expect(xml_canonized).to eq '<a></a>'
   end
 
   it 'test canonize' do
@@ -20,10 +19,8 @@ RSpec.describe SignatureDfe::Xml do
     expect(xml_canonized).to eq '<a a="a" b="b"><b></b></a>'
   end
 
-
-  ["det", "cUF"].each do |tag_name|
+  %w[det cUF].each do |tag_name|
     it "test node #{tag_name}" do
-
       xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
       tag_name = 'cUF'
       node = SignatureDfe::Xml.node tag_name, xml
@@ -57,7 +54,7 @@ RSpec.describe SignatureDfe::Xml do
   it 'test node_content' do
     xml = '<a><b><c>123</c></b></a>'
     node_content = SignatureDfe::Xml.node_content 'c', xml
-    expect(node_content).to eq '123' 
+    expect(node_content).to eq '123'
   end
 
   it 'test node SignedInfo' do
@@ -136,44 +133,44 @@ RSpec.describe SignatureDfe::Xml do
     xml = '<a><b><c x="ns_val" y="another_ns" /><e x="ns_val"></b></a>'
     node_content = SignatureDfe::Xml.get_node_by_namespace_value 'ns_val', xml
     expect(node_content).to eq '<c x="ns_val" y="another_ns" />'
-  end  
+  end
 
   it 'test canonize_inf_nfe' do
-    xml = %{
+    xml = %(
       <infNFe versao="4.00" Id="NFe121">
         <d/>
       </infNFe>
-    }
+    )
     canonized = SignatureDfe::Xml.canonize_inf_nfe xml
-    expected = %{
+    expected = %(
       <infNFe xmlns="http://www.portalfiscal.inf.br/nfe" Id="NFe121" versao="4.00">
         <d></d>
       </infNFe>
-    }.gsub(/(\s{2,}|\n)/,'')
+    ).gsub(/(\s{2,}|\n)/, '')
     expect(canonized).to eq expected
   end
 
   it 'test signed_info_with_ns' do
     xml = '<a><SignedInfo></SignedInfo></a>'
-    expect_xml = %{
+    expect_xml = %(
       <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"></SignedInfo>
-    }.strip
+    ).strip
     expect(expect_xml).to eq SignatureDfe::Xml.signed_info_with_ns(xml)
   end
 
   it 'test signed_info_with_ns with content' do
     xml = '<a><SignedInfo><b/></SignedInfo></a>'
-    expect_xml = %{<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"><b></b></SignedInfo>}.strip
+    expect_xml = %(<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"><b></b></SignedInfo>).strip
     expect(SignatureDfe::Xml.signed_info_with_ns(xml)).to eq expect_xml
   end
 
   it 'test signed_info_canonized' do
     xml = '<a><SignedInfo><b/></SignedInfo></a>'
-    expect_xml = %{
+    expect_xml = %(
       <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
         <b></b>
       </SignedInfo>
-    }.gsub(/(\s{2,}|\n)/,'')
+    ).gsub(/(\s{2,}|\n)/, '')
     expect(SignatureDfe::Xml.signed_info_canonized(xml)).to eq expect_xml
   end
 
@@ -183,17 +180,17 @@ RSpec.describe SignatureDfe::Xml do
   end
 
   it 'test canonize_inf_event' do
-    xml = %{
+    xml = %(
       <infEvento Id="NFe121">
         <d/>
       </infEvento>
-    }
+    )
     canonized = SignatureDfe::Xml.canonize_inf_event xml
-    expected = %{
+    expected = %(
       <infEvento xmlns="http://www.portalfiscal.inf.br/nfe" Id="NFe121">
         <d></d>
       </infEvento>
-    }.gsub(/(\s{2,}|\n)/,'')
+    ).gsub(/(\s{2,}|\n)/, '')
     expect(canonized).to eq expected
   end
 end

@@ -6,7 +6,7 @@ Layout/LineLength:
 
 Metrics/BlockLength:
   Exclude:
-    - spec/signature_dfe_spec.rb
+
 
 Style/Documentation:
   Enabled: false
