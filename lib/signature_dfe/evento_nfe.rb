@@ -5,7 +5,7 @@ module SignatureDfe
   class NFe
     class Event
       def self.digest_value(xml)
-        SignatureDfe::Xml.calc_digest_value(xml, 'infEvento')
+        SignatureDfe::Xml.calc_digest_value('infEvento', xml)
       end
 
       def self.signature_value(event_id, digest_value)

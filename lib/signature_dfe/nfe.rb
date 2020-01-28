@@ -3,7 +3,7 @@ require 'nokogiri'
 module SignatureDfe
   class NFe
     def self.digest_value(xml)
-      SignatureDfe::Xml.calc_digest_value(xml, 'infNFe')
+      SignatureDfe::Xml.calc_digest_value('infNFe', xml)
     end
 
     def self.sign(xml)

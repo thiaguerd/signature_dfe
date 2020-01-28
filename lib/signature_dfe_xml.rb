@@ -1,6 +1,6 @@
 module SignatureDfe
   class Xml
-    def self.calc_digest_value(xml, tag)
+    def self.calc_digest_value(tag, xml)
       xml = SignatureDfe::Xml.node(tag, xml)
       note_canonized = SignatureDfe::Xml.canonize_with_ns xml, tag
       Base64.encode64(OpenSSL::Digest::SHA1.digest(note_canonized)).strip
