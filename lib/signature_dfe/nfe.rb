@@ -35,7 +35,7 @@ module SignatureDfe
 
 		def self.canonize_inf_nfe inf_nfe
 			tag_inf_nfe = inf_nfe.scan(/\<infnfe[\s\S]*?\>/i)[0]
-			SignatureDfe.canonize(tag_inf_nfe.include?(%{xmlns="http://www.portalfiscal.inf.br/nfe"}) ? tag_inf_nfe : inf_nfe.gsub(%{<infNFe},%{<infNFe xmlns="http://www.portalfiscal.inf.br/nfe"}))
+			SignatureDfe::Xml.canonize(tag_inf_nfe.include?(%{xmlns="http://www.portalfiscal.inf.br/nfe"}) ? tag_inf_nfe : inf_nfe.gsub(%{<infNFe},%{<infNFe xmlns="http://www.portalfiscal.inf.br/nfe"}))
 		end
 
 		def self.signature_value ch_nfe, digest_value
@@ -53,7 +53,7 @@ module SignatureDfe
 					</Reference>
 				</SignedInfo>
 			}
-			signed_info_canonized = SignatureDfe.canonize signed_info
+			signed_info_canonized = SignatureDfe::Xml.canonize signed_info
 			Base64.encode64(SignatureDfe::SSL.sign signed_info_canonized).strip
 		end
 

@@ -26,7 +26,7 @@ module SignatureDfe
 						</Reference>
 					</SignedInfo>
 				}
-				signed_info_canonized = SignatureDfe.canonize signed_info
+				signed_info_canonized = SignatureDfe::Xml.canonize signed_info
 				Base64.encode64(SignatureDfe::SSL.sign signed_info_canonized).strip
 			end
 
@@ -63,7 +63,7 @@ module SignatureDfe
 
 			def self.canonize_inf_event inf_nfe
 				tag_inf_nfe = inf_nfe.scan(/\<infevento[\s\S]*?\>/i)[0]
-				SignatureDfe.canonize(tag_inf_nfe.include?(%{xmlns="http://www.portalfiscal.inf.br/nfe"}) ? tag_inf_nfe : inf_nfe.gsub(%{<infEvento},%{<infEvento xmlns="http://www.portalfiscal.inf.br/nfe"}))
+				SignatureDfe::Xml.canonize(tag_inf_nfe.include?(%{xmlns="http://www.portalfiscal.inf.br/nfe"}) ? tag_inf_nfe : inf_nfe.gsub(%{<infEvento},%{<infEvento xmlns="http://www.portalfiscal.inf.br/nfe"}))
 			end
 
 			private_class_method :canonize_inf_event
