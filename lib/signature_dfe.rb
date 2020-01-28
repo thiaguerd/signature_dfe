@@ -1,5 +1,6 @@
 require 'signature_dfe/version'
 require 'signature_dfe_xml'
+require 'signature_dfe_check'
 require 'openssl'
 
 GEM_ROOT = File.expand_path("../..", __FILE__)
