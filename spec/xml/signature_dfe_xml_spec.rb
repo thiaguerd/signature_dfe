@@ -22,14 +22,14 @@ RSpec.describe SignatureDfe::Xml do
   %w[det cUF].each do |tag_name|
     it "test node #{tag_name}" do
       xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
-      tag_name = 'cUF'
+      tag_name = tag_name
       node = SignatureDfe::Xml.node tag_name, xml
       match_start = '<' + tag_name
       math_end = "</#{tag_name}>"
-      index_match_start = xml.index(match_start) - match_start.size
-      index_math_end = xml.index(math_end) + math_end.size
-      node = xml[index_match_start..index_math_end]
-      expect(node).to eq node
+      index_match_start = xml.index(match_start)
+      index_math_end = xml.index(math_end) + math_end.size - 1
+      node_from_xml = xml[index_match_start..index_math_end]
+      expect(node_from_xml).to eq node
     end
   end
 
@@ -137,13 +137,13 @@ RSpec.describe SignatureDfe::Xml do
 
   it 'test canonize_inf_nfe' do
     xml = %(
-      <infNFe versao="4.00" Id="NFe121">
+      <infNFe versao="4.00" Id="xyz">
         <d/>
       </infNFe>
     )
     canonized = SignatureDfe::Xml.canonize_inf_nfe xml
     expected = %(
-      <infNFe xmlns="http://www.portalfiscal.inf.br/nfe" Id="NFe121" versao="4.00">
+      <infNFe xmlns="http://www.portalfiscal.inf.br/nfe" Id="xyz" versao="4.00">
         <d></d>
       </infNFe>
     ).gsub(/(\s{2,}|\n)/, '')
@@ -160,7 +160,10 @@ RSpec.describe SignatureDfe::Xml do
 
   it 'test signed_info_with_ns with content' do
     xml = '<a><SignedInfo><b/></SignedInfo></a>'
-    expect_xml = %(<SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"><b></b></SignedInfo>).strip
+    expect_xml = %(
+      <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <b></b>
+      </SignedInfo>).strip.gsub(/\>\s+\</, '><')
     expect(SignatureDfe::Xml.signed_info_with_ns(xml)).to eq expect_xml
   end
 
