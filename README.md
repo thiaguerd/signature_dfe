@@ -1,4 +1,9 @@
-[![Travis CI](https://travis-ci.org/thiaguerd/signature_dfe.svg?branch=master)](https://travis-ci.org/thiaguerd/signature_dfe) [![Gem Version](https://badge.fury.io/rb/signature_dfe.svg)](https://rubygems.org/gems/signature_dfe)
+![test](https://github.com/thiaguerd/signature_dfe/workflows/Rails%20Unit%20Tests/badge.svg)
+[![Travis CI](https://travis-ci.org/thiaguerd/signature_dfe.svg?branch=master)](https://travis-ci.org/thiaguerd/signature_dfe)
+![rubocop](https://github.com/thiaguerd/signature_dfe/workflows/Rubocop/badge.svg)
+[![Gem Version](https://badge.fury.io/rb/signature_dfe.svg)](https://rubygems.org/gems/signature_dfe)
+![](https://ruby-gem-downloads-badge.herokuapp.com/signature_dfe?metric=true)
+![](https://ruby-gem-downloads-badge.herokuapp.com/signature_dfe?type=total)
 
 # SignatureDfe
 
