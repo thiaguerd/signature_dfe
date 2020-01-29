@@ -1,0 +1,58 @@
+<inutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+	<infInut Id="ID06546541654654654654654654654654654654879">
+		<tpAmb>1</tpAmb>
+		<xServ>INUTILIZAR</xServ>
+		<cUF>12</cUF>
+		<ano>20</ano>
+		<CNPJ>00000000000000</CNPJ>
+		<mod>55</mod>
+		<serie>1</serie>
+		<nNFIni>18474</nNFIni>
+		<nNFFin>18474</nNFFin>
+		<xJust>NOTA FEITA DE FORMA ERRADA</xJust>
+	</infInut>
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+			<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+			<Reference URI="#ID06546541654654654654654654654654654654879">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+				<DigestValue>OymQZBAjGRneJ1suUaUkr2wZ0oM=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>Mi5ny18tqiCW5YjrZQh01rwOKwIAYvfQRfAVtYcdlqWAmiMjAsilsw0XrNYh
+xaA/hnENSLRX9Cbv9znopRKtk4jOw3JwahZMRAeaMFFn9vIJswjKkuwsIlUM
+EvFdLUfz9Ts534LZe9upVgTbwuuKekMJHZUY2ejpkrdVM3awD6nV0EucMoNU
+eli3W4McCZNJOYzL7i1rjVjiz+T3O6cy/JHfDlx2owdUCdBwP0KbwGB4C+n7
+bJjCtKcQ82Zr0uR5nFN2YVfx1vNifg8velquvXimDeRw3tm2EoZ9X7dfRtZS
+7/dcpy1n82yJI0kIv7P3gS739fQEpGWYi2lPrJwxKg==</SignatureValue>
+		<KeyInfo>
+			<X509Data>
+				<X509Certificate>MIIDuDCCAqACCQCkljVCIuJLrTANBgkqhkiG9w0BAQsFADCBnTELMAkGA1UEBhMC
+VVMxETAPBgNVBAgMCE5ldyBZb3JrMREwDwYDVQQHDAhOZXcgWW9yazELMAkGA1UE
+CgwCSVQxEjAQBgNVBAsMCUhvc3QgVGVhbTETMBEGA1UEAwwKZG9tYWluLmNvbTEd
+MBsGCSqGSIb3DQEJARYOeW91ckBlbWFpbC5jb20xEzARBgNVHREMCmRvbWFpbi5j
+b20wHhcNMjAwMTI5MTE0MDMwWhcNMjEwMTI4MTE0MDMwWjCBnTELMAkGA1UEBhMC
+VVMxETAPBgNVBAgMCE5ldyBZb3JrMREwDwYDVQQHDAhOZXcgWW9yazELMAkGA1UE
+CgwCSVQxEjAQBgNVBAsMCUhvc3QgVGVhbTETMBEGA1UEAwwKZG9tYWluLmNvbTEd
+MBsGCSqGSIb3DQEJARYOeW91ckBlbWFpbC5jb20xEzARBgNVHREMCmRvbWFpbi5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC03dtv+MIOWLwHU/aE
+XV7RNcSGjhimGmIK8TfJIgVMLZCu0cyGToTad9OyG36PW7t4sN0pxgs2sTWbBMZY
+sIuyXwsQjwsfGfyv6BScJ7kjDYS6drThiVYT6LmXZabJYQ/Cf00t2kUNqX9+MXrd
+noKlVl+zD3H/d9HpS2D5mt5FkKax71sqfZClwIPU7Gl5IpXDwp0LLeq3hz5vJstK
+WMqhowczBUikibxnhU/XxCkzPHqweFg0YO/+bpu25tkKT1WMp2aES+UuOZAVN9lS
+elpHlHEKRJ21/0KfQsSPab6HRTcU2ME3Fu9F190qhFS7OapFvd5F3nUNbxIJd4IH
+AmcBAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAFyoHe/3RAcJ1qrqyaCD9DeYXuoP
+0uny0qtIuYcHSLc//GtoidPJq2pjSDC2ROKnMezSgc/nJnNbHDEHo6F8IL/0Tnyb
+pDvRtGqjnroYCbwzu/KiB7Gy1Nlr5WSAxX6e032C1mohY7ONQ+oO8ygOabcOAlKd
+1WGJHEgZb4oR2saBSKRkEnWnaXduYcTkq2OhaEsDushWFgM/gdtXRbs/x6GscxTo
+MPB/+/1P/IOHwS3bv14i0vgZvTFK2Fm2fmxj++xO9QtQpm8EFpxCNWNpNs/oehGh
+rgDUHk+TPokSQS1iCm0ooaDhNECSNW2TLUOImCvU9QYISgYqii70pR7pmLs=</X509Certificate>
+			</X509Data>
+		</KeyInfo>
+	</Signature>
+</inutNFe>

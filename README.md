@@ -165,6 +165,11 @@ signature_value = SignatureDfe::NFe::Event.signature_value event_id, digest_valu
 x509certificate = SignatureDfe::SSL.cert
 ```
 
+## Assinatura digital Inutilização
+
+
+
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
