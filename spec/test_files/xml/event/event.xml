@@ -1,0 +1,61 @@
+<evento versao="1.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+	<infEvento Id="ID1101106545646546894189714652514985418182220001415504">
+		<cOrgao>51</cOrgao>
+		<tpAmb>1</tpAmb>
+		<CNPJ>32947251000174</CNPJ>
+		<chNFe>65456465468941897146525149854181822200014155</chNFe>
+		<dhEvento>2020-01-28T11:07:40-03:00</dhEvento>
+		<tpEvento>110110</tpEvento>
+		<nSeqEvento>4</nSeqEvento>
+		<verEvento>1.00</verEvento>
+		<detEvento versao="1.00">
+			<descEvento>Carta de Correcao</descEvento>
+			<xCorrecao>quantidade de volumes: 16 CAIXAS Peso: 67,100 FRETE: EMITENTE Para o produto codigo 56 pela nova lei 631/19 usa-se CFOP 6.403 com CSON 500 conforme estabelece venda de produtos ST.</xCorrecao>
+			<xCondUso>A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionado com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de dados cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida.</xCondUso>
+		</detEvento>
+	</infEvento>
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+			<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+			<Reference URI="#ID1101106545646546894189714652514985418182220001415504">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+					<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+				<DigestValue>2vK1bh71E4LnkaRlkY6GkqCyCug=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>EHumo8ayuq21zHO/KzH1ywT8falBHNZlYrOEpjLlXmEzW4ACDznnVA+N1CMN
+WNfiv/G+JcAn/OmUO8N7qFxo3RN81H8xoOTnoI/CaOx1I6I+ND1blHtbNF1R
+Sieyb5L3mngdqMyPJrKce/Emgve0oo2K6PIn90VbtZ/gxd/isJNzkXIDUZpm
+KemJVT9mpin5g/qFz+noHwjBzlDLGwjTWeav0eVJDNjSwa7WR/uHyNETiMhW
+pK04F6T3iO3L5CC7MIQn14S3mYMd5eCyZNmvnHMqYNywDGn4xb/5w/MwjH4/
+S/38nsjmETtO45rxpuXicbzor9lUjPgJA6e1hV/dvw==</SignatureValue>
+		<KeyInfo>
+			<X509Data>
+				<X509Certificate>MIIDuDCCAqACCQCAlFgxVsQATzANBgkqhkiG9w0BAQsFADCBnTELMAkGA1UEBhMC
+VVMxETAPBgNVBAgMCE5ldyBZb3JrMREwDwYDVQQHDAhOZXcgWW9yazELMAkGA1UE
+CgwCSVQxEjAQBgNVBAsMCUhvc3QgVGVhbTETMBEGA1UEAwwKZG9tYWluLmNvbTEd
+MBsGCSqGSIb3DQEJARYOeW91ckBlbWFpbC5jb20xEzARBgNVHREMCmRvbWFpbi5j
+b20wHhcNMjAwMTI4MTgzMjQ3WhcNMjEwMTI3MTgzMjQ3WjCBnTELMAkGA1UEBhMC
+VVMxETAPBgNVBAgMCE5ldyBZb3JrMREwDwYDVQQHDAhOZXcgWW9yazELMAkGA1UE
+CgwCSVQxEjAQBgNVBAsMCUhvc3QgVGVhbTETMBEGA1UEAwwKZG9tYWluLmNvbTEd
+MBsGCSqGSIb3DQEJARYOeW91ckBlbWFpbC5jb20xEzARBgNVHREMCmRvbWFpbi5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDZkD3VJ5bYQidnb8Df
+CFLGr/fLyZK61sY12SvSxqqL9zrHPzWUW1/iLzyzMZjdd7owJPjaXRgqaVicl+xr
+s+86FQ4F0cjdgDpEvd41l2oxInL2MVgF+SiD3S1KOKstb8Kk5oKpX1jFTfDb+/64
+5ZvVMhNH4raloB/c/I8Ud/u6/EdxYdDeEQAqFCsxqADF3nhpyXH7/spUV8JlL0K/
+dnlPHeIz16eKwAqaOqYmerQfkcXq8lKclAmam9DuCQd5O0Pkxx+DVaSPBPoQW0/b
+EbDVwYQYMN6lKMhilWSbGehi9ltSbMz9NfpoCTiLOmAqEhPoNf1D/4Zt1xtByFh1
+CD7dAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAJO9dtrwGkGBgYRKPT6bf/aRMqGi
+jL2GCmiJbeq4IV+LbQDltObc2LiXrkxSVjZQaYLhzA/wz4glPGfbzyXAWpsZwCOz
+x1rXqq3cSOq7jyucoKhpTVLXADYk6YG469PN4vaqbDJcEXTkocFUvqZfhIla8oBv
+qkdQuKVH+cJGTLHVjyE6bdSKLWkp6Ra8KwUIAhpdgrhK+M6u4bbGD3PSpm/0m6XR
+mXpT384plo5c0HlCUeGpgBKwtIfttfoF64Siz7K+Fr4V67s3/IS6fbgizY3fiBHT
+NPkpp4ViR4ACLvABpqOk4I+4px/AXmrmv0hGzzOcDIXqexChDSyznlM5ngk=</X509Certificate>
+			</X509Data>
+		</KeyInfo>
+	</Signature>
+</evento>
