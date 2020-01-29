@@ -123,7 +123,8 @@ A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contend
 inf_evento = %{
 <infEvento Id="ID1101115515151515151515151515156546546546545646544701">
 	...
-</infEvento>}
+</infEvento>
+}
 SignatureDfe::NFe::Event.sign inf_evento
 ```
 
@@ -164,6 +165,37 @@ digest_value = SignatureDfe::NFe::Event.digest_value inf_evento
 signature_value = SignatureDfe::NFe::Event.signature_value event_id, digest_value
 x509certificate = SignatureDfe::SSL.cert
 ```
+
+## Assinatura digital de Inutilização
+
+Segue-se exatamente como os documentos anteriores
+
+Para assinar passo a passo
+
+```
+inf_inut = %{
+  <infInut Id="ID06546541654654654654654654654654654654879">
+  ...
+  </infInut>
+}
+digest_value = SignatureDfe::Inutilizacao.digest_value inf_inut
+inut_id = "ID06546541654654654654654654654654654654879"
+signature_value = SignatureDfe::Inutilizacao.signature_value inut_id, digest_value
+x509certificate = SignatureDfe::SSL.cert
+```
+
+Ou, para gerar toda a assinatura em único passo
+
+```
+inf_inut = %{
+  <infInut Id="ID06546541654654654654654654654654654654879">
+  ...
+  </infInut>
+}
+SignatureDfe::Inutilizacao.sign inf_inut
+```
+
+
 
 ## License
 
