@@ -14,6 +14,7 @@ RSpec.describe 'SignatureDfe Evento NF-e with pk' do
     SignatureDfe::SSL.config.pkey = @key_path
     SignatureDfe::SSL.config.password = @pass
     SignatureDfe::SSL.config.cert = @cert_path
+
     @xml = File.read GEM_ROOT + '/spec/test_files/xml/event/event.xml'
 
     dh_evento = SignatureDfe::Xml.node_content 'dhEvento', @xml

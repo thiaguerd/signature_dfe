@@ -41,7 +41,6 @@ RSpec.describe SignatureDfe do
     expect(SignatureDfe::SSL.test).to eq(true)
   end
 
-
   context 'SignatureDfe with pkcs12' do
     it 'wrong path pkcs12' do
       path = 'wrong_path'
@@ -59,7 +58,7 @@ RSpec.describe SignatureDfe do
       msg = "Wrong password for '#{path}'"
       expect do
         SignatureDfe::SSL.test
-      end.to raise_error(SignatureDfe::Error)
+      end.to raise_error(SignatureDfe::Error, msg)
     end
 
     it 'right on set up wrong pkcs12' do
@@ -78,7 +77,7 @@ RSpec.describe SignatureDfe do
       msg = "Your pkey '#{path}' is not a valid file"
       expect do
         SignatureDfe::SSL.test
-      end.to raise_error(SignatureDfe::Error)
+      end.to raise_error(SignatureDfe::Error, msg)
     end
 
     it 'wrong pass pkey' do
@@ -88,7 +87,7 @@ RSpec.describe SignatureDfe do
       msg = "Wrong password for '#{path}'"
       expect do
         SignatureDfe::SSL.test
-      end.to raise_error(SignatureDfe::Error)
+      end.to raise_error(SignatureDfe::Error, msg)
     end
 
     it 'must be set certificate if you using pkey' do
@@ -98,7 +97,7 @@ RSpec.describe SignatureDfe do
       msg = 'You must be set up the cert if you chose use pkey'
       expect do
         SignatureDfe::SSL.test
-      end.to raise_error(SignatureDfe::Error)
+      end.to raise_error(SignatureDfe::Error, msg)
     end
     it 'wrong cert' do
       path = './certs/key.pem'
@@ -110,7 +109,7 @@ RSpec.describe SignatureDfe do
       msg = "Your cert '#{cert_path}' is not a valid file"
       expect do
         SignatureDfe::SSL.test
-      end.to raise_error(SignatureDfe::Error)
+      end.to raise_error(SignatureDfe::Error, msg)
     end
     it 'right on set up with pkey and cert' do
       path = './certs/key.pem'
@@ -122,37 +121,19 @@ RSpec.describe SignatureDfe do
     end
   end
 
-  context 'SignatureDfe NF-e' do
+  context 'SignatureDfe NF-e valid' do
     before(:all) do
       @xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
       @inf_nfe = SignatureDfe::Xml.node 'infNFe', @xml
-
-      signature_value = ''
-      x509certificate = ''
       @digest_value = SignatureDfe::Xml.node_content 'DigestValue', @xml
-      @signature_value = SignatureDfe::Xml.node_content 'SignatureValue', @xml
-      @ch_nfe = '12181004034484000140558900000060011166401389'
-      @full_signature = SignatureDfe::Xml.node 'Signature', @xml
-
-
     end
 
     it 'calc digest' do
       expect(SignatureDfe::NFe.digest_value(@xml)).to eq(@digest_value)
     end
 
-    # it 'gen signature_value' do
-    #   signature_value = SignatureDfe::NFe.signature_value @ch_nfe, @digest_value
-    #   expect(signature_value).to eq(@signature_value)
-    # end
-
-    # it 'X509Certificate' do
-    #   x509certificate = File.read('./certs/certificate.pem').gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip
-    #   expect(SignatureDfe::SSL.cert).to eq(x509certificate)
-    # end
-
-    # it 'full signature' do
-    #   expect(SignatureDfe::NFe.sign(@inf_nfe)).to eq(@full_signature)
-    # end
+    it 'check signature' do
+      expect(SignatureDfe::Check.signature_check(@xml)).to eq true
+    end
   end
 end

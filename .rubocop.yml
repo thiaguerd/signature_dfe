@@ -7,11 +7,13 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - signature_dfe.gemspec
+    - spec/xml/signature_dfe_xml_spec.rb
     - spec/signature_dfe_spec.rb
     - spec/event/signature_dfe_event_pem_spec.rb
     - spec/event/signature_dfe_event_pkcs_spec.rb
     - spec/nfe/signature_dfe_nfe_pem_spec.rb
     - spec/nfe/signature_dfe_nfe_pkcs_spec.rb
+    - spec/xml/event/signatire_dfe_event_spec.rb
 
 Style/Documentation:
   Enabled: false
@@ -22,4 +24,4 @@ Style/FrozenStringLiteralComment:
 Metrics/AbcSize:
   Max: 20
   Exclude:
-    - lib/signature_dfe/ssl.rb
+    # - lib/signature_dfe/ssl.rb

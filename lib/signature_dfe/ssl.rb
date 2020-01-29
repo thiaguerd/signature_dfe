@@ -85,9 +85,11 @@ module SignatureDfe
         if config.cert.nil? || config.cert.empty?
           error 'You must be set up the cert if you chose use pkey'
         end
-        return if File.exist? config.cert
-
-        error "Your cert '#{config.cert}' is not a valid file"
+        if File.exist? config.cert
+          @cert = OpenSSL::X509::Certificate.new(File.read(config.cert))
+        else
+          error "Your cert '#{config.cert}' is not a valid file"
+        end
       end
 
       def test_pem
@@ -95,7 +97,6 @@ module SignatureDfe
           pass = config.instance_variable_get(:@password)
           @pk = OpenSSL::PKey::RSA.new File.read(config.pkey), pass
           check_cert
-          @cert = OpenSSL::X509::Certificate.new(File.read(config.cert))
         else
           error "Your pkey '#{config.pkey}' is not a valid file"
         end
