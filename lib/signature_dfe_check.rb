@@ -20,11 +20,9 @@ module SignatureDfe
       uri = Xml.namespace_value('URI', Xml.tag('Reference', xml)).gsub('#', '')
       xmlns = Xml.namespace_value('xmlns', xml)
       node_assigned = Xml.get_node_by_namespace_value(uri, xml)
-      node_assigned.gsub!(/>\s+\</, '><')
+      node_assigned.gsub!(/>\s+</, '><')
       node_name = Xml.node_name(node_assigned)
-      unless Xml.tag(node_name, xml).include?(xmlns)
-        node_assigned.gsub!(node_name, %(#{node_name} xmlns="#{xmlns}"))
-      end
+      node_assigned.gsub!(node_name, %(#{node_name} xmlns="#{xmlns}")) unless Xml.tag(node_name, xml).include?(xmlns)
       dv = OpenSSL::Digest::SHA1.digest(Xml.canonize(node_assigned))
       Base64.encode64(dv).strip == Xml.node_content('DigestValue', xml)
     end

@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = repo
-  spec.metadata['changelog_uri'] = repo + '/blob/master/CHANGELOG'
+  spec.metadata['changelog_uri'] = "#{repo}/blob/master/CHANGELOG"
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     rx = %r{^(test|spec|features)/}
     `git ls-files -z`.split("\x0").reject { |f| f.match(rx) }
@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.1.2'
   spec.add_development_dependency 'nokogiri', '~> 1.10.7'
   spec.add_development_dependency 'openssl', '~> 2.1.2'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.required_ruby_version = '>= 2.4'
 end

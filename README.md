@@ -68,7 +68,7 @@ A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contend
 ```ruby
 inf_nfe = %{
 <infNFe Id="NFe00000000000000000000000000000000000000000000" versao="3.10">
-	...
+  ...
 </infNFe>}
 SignatureDfe::NFe.sign inf_nfe
 ```
@@ -77,24 +77,24 @@ Onde a resposta será
 
 ```xml
 <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-	<SignedInfo>
-		<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-		<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-		<Reference URI="#NFe...">
-			<Transforms>
-				<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-				<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-			</Transforms>
-			<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-			<DigestValue>...</DigestValue>
-		</Reference>
-	</SignedInfo>
-	<SignatureValue>...</SignatureValue>
-	<KeyInfo>
-		<X509Data>
-			<X509Certificate>...</X509Certificate>
-		</X509Data>
-	</KeyInfo>
+  <SignedInfo>
+    <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+    <Reference URI="#NFe...">
+      <Transforms>
+        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+        <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      </Transforms>
+      <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+      <DigestValue>...</DigestValue>
+    </Reference>
+  </SignedInfo>
+  <SignatureValue>...</SignatureValue>
+  <KeyInfo>
+    <X509Data>
+      <X509Certificate>...</X509Certificate>
+    </X509Data>
+  </KeyInfo>
 </Signature>
 ```
 
@@ -103,7 +103,7 @@ E a forma qual onde você pode obter os valores do <b>DigestValue</b>, <b>Signat
 ```ruby
 inf_nfe = %{
 <infNFe Id="NFe00000000000000000000000000000000000000000000" versao="3.10">
-	...
+  ...
 </infNFe>}
 ch_nfe = "0000000000000000000000000000000000000000000"
 digest_value = SignatureDfe::NFe.digest_value inf_nfe
@@ -122,7 +122,7 @@ A forma qual vc tem a xml da assinautra completo onde vc passa o seu xml contend
 ```ruby
 inf_evento = %{
 <infEvento Id="ID1101115515151515151515151515156546546546545646544701">
-	...
+  ...
 </infEvento>
 }
 SignatureDfe::NFe::Event.sign inf_evento
@@ -132,24 +132,24 @@ Onde a resposta será
 
 ```xml
 <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-	<SignedInfo>
-		<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-		<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-		<Reference URI="#ID1...">
-			<Transforms>
-				<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-				<Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-			</Transforms>
-			<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-			<DigestValue>...</DigestValue>
-		</Reference>
-	</SignedInfo>
-	<SignatureValue>...</SignatureValue>
-	<KeyInfo>
-		<X509Data>
-			<X509Certificate>...</X509Certificate>
-		</X509Data>
-	</KeyInfo>
+  <SignedInfo>
+    <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+    <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+    <Reference URI="#ID1...">
+      <Transforms>
+        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+        <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      </Transforms>
+      <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+      <DigestValue>...</DigestValue>
+    </Reference>
+  </SignedInfo>
+  <SignatureValue>...</SignatureValue>
+  <KeyInfo>
+    <X509Data>
+      <X509Certificate>...</X509Certificate>
+    </X509Data>
+  </KeyInfo>
 </Signature>
 ```
 
@@ -158,7 +158,7 @@ E a forma qual onde você pode obter os valores do <b>DigestValue</b>, <b>Signat
 ```ruby
 inf_evento = %{
 <infEvento Id="ID1101115515151515151515151515156546546546545646544701">
-	...
+  ...
 </infEvento>}
 event_id = "ID1101115515151515151515151515156546546546545646544701"
 digest_value = SignatureDfe::NFe::Event.digest_value inf_evento
@@ -172,7 +172,7 @@ Segue-se exatamente como os documentos anteriores
 
 Para assinar passo a passo
 
-```
+```ruby
 inf_inut = %{
   <infInut Id="ID06546541654654654654654654654654654654879">
   ...
@@ -186,7 +186,7 @@ x509certificate = SignatureDfe::SSL.cert
 
 Ou, para gerar toda a assinatura em único passo
 
-```
+```ruby
 inf_inut = %{
   <infInut Id="ID06546541654654654654654654654654654654879">
   ...
