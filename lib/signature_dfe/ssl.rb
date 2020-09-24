@@ -1,31 +1,4 @@
 module SignatureDfe
-  class Config
-    include AbstractClass
-
-    attr_accessor :pkcs12, :pkey, :cert
-
-    attr_writer :password
-
-    def initialize
-      clear
-    end
-
-    def clear
-      @pkcs12 = nil
-      @pkey = nil
-      @cert = nil
-      @password = nil
-    end
-
-    def inspect
-      super.gsub(/\, \@pass[\s\S]*?\>/, '>')
-    end
-
-    def instance_variables
-      super - [:@password]
-    end
-  end
-
   class SSL
     include AbstractClass
 
@@ -35,17 +8,26 @@ module SignatureDfe
       attr_reader :config
     end
 
-    def self.sign(content, sign_method = OpenSSL::Digest::SHA1.new)
+    def self.sign(content, sign_method = OpenSSL::Digest.new('SHA1'))
       self.test unless defined?(@pk)
       @pk.sign sign_method, content
     end
 
     def self.cert
       self.test unless defined?(@pk)
-      @cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip
+      @cert.to_s.gsub(/-----[A-Z]+ CERTIFICATE-----/, '').strip
     end
 
     class << self
+      def test
+        set_up
+        test_pkc12 if config.pkcs12
+        test_pem if config.pkey && !config.pkcs12
+        true
+      rescue OpenSSL::PKey::RSAError
+        error "Wrong password for '#{config.pkey}'"
+      end
+
       private
 
       def error(msg)
@@ -82,9 +64,7 @@ module SignatureDfe
       end
 
       def check_cert
-        if config.cert.nil? || config.cert.empty?
-          error 'You must be set up the cert if you chose use pkey'
-        end
+        error 'You must be set up the cert if you chose use pkey' unless config.cert?
         if File.exist? config.cert
           @cert = OpenSSL::X509::Certificate.new(File.read(config.cert))
         else
@@ -103,15 +83,6 @@ module SignatureDfe
       rescue OpenSSL::X509::CertificateError
         error "Your cert '#{config.cert}' is not a valid file"
       end
-    end
-
-    def self.test
-      set_up
-      test_pkc12 if config.pkcs12
-      test_pem if config.pkey && !config.pkcs12
-      true
-    rescue OpenSSL::PKey::RSAError
-      error "Wrong password for '#{config.pkey}'"
     end
   end
 end

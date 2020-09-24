@@ -19,6 +19,7 @@ module SignatureDfe
   end
 end
 
+require 'signature_dfe/config'
 require 'signature_dfe/ssl'
 require 'signature_dfe/nfe'
 require 'signature_dfe/evento_nfe'
