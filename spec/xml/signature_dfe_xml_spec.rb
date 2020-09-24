@@ -21,10 +21,9 @@ RSpec.describe SignatureDfe::Xml do
 
   %w[det cUF].each do |tag_name|
     it "test node #{tag_name}" do
-      xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
-      tag_name = tag_name
+      xml = File.read path('spec/test_files/xml/nfe/valid_nfe.xml')
       node = SignatureDfe::Xml.node tag_name, xml
-      match_start = '<' + tag_name
+      match_start = "<#{tag_name}"
       math_end = "</#{tag_name}>"
       index_match_start = xml.index(match_start)
       index_math_end = xml.index(math_end) + math_end.size - 1
@@ -163,7 +162,7 @@ RSpec.describe SignatureDfe::Xml do
     expect_xml = %(
       <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
         <b></b>
-      </SignedInfo>).strip.gsub(/\>\s+\</, '><')
+      </SignedInfo>).strip.gsub(/>\s+</, '><')
     expect(SignatureDfe::Xml.signed_info_with_ns(xml)).to eq expect_xml
   end
 
@@ -178,7 +177,7 @@ RSpec.describe SignatureDfe::Xml do
   end
 
   it 'test public_cert' do
-    xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
+    xml = File.read path('spec/test_files/xml/nfe/valid_nfe.xml')
     expect(SignatureDfe::Xml.public_cert(xml).subject).to_not be_nil
   end
 

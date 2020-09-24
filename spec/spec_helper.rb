@@ -10,3 +10,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+def path(file)
+  "#{GEM_ROOT}/#{file}"
+end

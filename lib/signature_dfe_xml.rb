@@ -7,19 +7,17 @@ module SignatureDfe
     end
 
     def self.build_signature(options = {})
-      path = "#{GEM_ROOT}/lib/signature_dfe/templates/signature.xml"
-      xml = File.read path
+      xml = File.read path('lib/signature_dfe/templates/signature.xml')
       xml.gsub!(':id', options[:id])
       xml.gsub!(':digest_value', options[:digest_value])
       xml.gsub!(':signature_value', options[:signature_value])
       cert = SignatureDfe::SSL.cert.to_s
-      cert.to_s.gsub(/\-\-\-\-\-[A-Z]+ CERTIFICATE\-\-\-\-\-/, '').strip!
-      xml.gsub!(':x509_certificate', cert.strip).gsub(/\>\s+\</, '><')
+      cert.to_s.gsub(/-----[A-Z]+ CERTIFICATE-----/, '').strip!
+      xml.gsub!(':x509_certificate', cert.strip).gsub(/>\s+</, '><')
     end
 
     def self.build_signed_info(id, digest_value_)
-      path = "#{GEM_ROOT}/lib/signature_dfe/templates/signed_info.xml"
-      signed_info = File.read path
+      signed_info = File.read path('lib/signature_dfe/templates/signed_info.xml')
       signed_info.gsub!(':id', id)
       signed_info.gsub!(':digest_value', digest_value_)
       signed_info_canonized = SignatureDfe::Xml.canonize signed_info
@@ -27,38 +25,38 @@ module SignatureDfe
     end
 
     def self.digest_method_algorithm(xml)
-      xml.scan(/(\<DigestMethod[\s\S]*?\#)([\s\S]*?)(\"|\')/)[0][1]
+      xml.scan(/(<DigestMethod[\s\S]*?\#)([\s\S]*?)("|')/)[0][1]
     end
 
     def self.node(name, xml)
-      r = %r{\<#{Regexp.escape(name)}[\s\S]*((/\>)|(#{Regexp.escape(name)}\>))}
+      r = %r{<#{Regexp.escape(name)}[\s\S]*((/>)|(#{Regexp.escape(name)}>))}
       xml.match(r)[0].gsub(/>\s+</, '><')
     end
 
     def self.node_content(name, xml)
-      full_node = xml.scan(%r{\<#{name}.*?\>([\s\S]*?)\</#{name}\>})
+      full_node = xml.scan(%r{<#{name}.*?>([\s\S]*?)</#{name}>})
       return nil unless full_node[0]
 
       full_node[0][0]
     end
 
     def self.node_name(xml)
-      xml.scan(%r{\<[^/\s\>]*})[0].gsub('<', '')
+      xml.scan(%r{<[^/\s>]*})[0].gsub('<', '')
     end
 
     def self.tag(name, xml)
-      xml.scan(%r{\<#{name}[\S\s]*?[/\>|\>]})[0]
+      xml.scan(%r{<#{name}[\S\s]*?[/>|>]})[0]
     end
 
     def self.namespace_value(namespace, xml)
-      matches = xml.match(/#{Regexp.escape(namespace)}\=\"([^"]*)/)
+      matches = xml.match(/#{Regexp.escape(namespace)}="([^"]*)/)
       return nil unless matches
 
       matches[1]
     end
 
     def self.get_node_by_namespace_value(value, xml)
-      a = xml.match(%r{\<[^<]*#{Regexp.escape(value)}[^>]*(\>|/>)})[0]
+      a = xml.match(%r{<[^<]*#{Regexp.escape(value)}[^>]*(>|/>)})[0]
       node(node_name(a), xml)
     end
 

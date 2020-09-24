@@ -123,7 +123,7 @@ RSpec.describe SignatureDfe do
 
   context 'SignatureDfe NF-e valid' do
     before(:all) do
-      @xml = File.read GEM_ROOT + '/spec/test_files/xml/nfe/valid_nfe.xml'
+      @xml = File.read path('/spec/test_files/xml/nfe/valid_nfe.xml')
       @inf_nfe = SignatureDfe::Xml.node 'infNFe', @xml
       @digest_value = SignatureDfe::Xml.node_content 'DigestValue', @xml
     end
